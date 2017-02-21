@@ -65,40 +65,40 @@
 			"esri/geometry/Polygon",
 			"esri/symbols/PictureMarkerSymbol",
 			"esri/symbols/SimpleFillSymbol", 
-      		"esri/graphic",
-      		"esri/layers/GraphicsLayer",
-      		"esri/Color",
-      		"esri/layers/FeatureLayer",
+      			"esri/graphic",
+      			"esri/layers/GraphicsLayer",
+      			"esri/Color",
+      			"esri/layers/FeatureLayer",
 			"dojo/domReady!"], 
 
 
 		function(Map, Circle, ArcGISDynamicMapServiceLayer, Query, QueryTask, Polygon, PictureMarkerSymbol, SimpleFillSymbol, Graphic, GraphicsLayer, Color, FeatureLayer) {
 		    
 
-		    //creamos el objeto mapa
-		    map = new Map("mapDiv", {
-		    	center: [-56.049, 38.485],
-		    	zoom: 3,
-		    	basemap: "topo"
+		    	//creamos el objeto mapa
+		    	map = new Map("mapDiv", {
+		    		center: [-56.049, 38.485],
+		    		zoom: 3,
+		    		basemap: "topo"
 		  	});
 
-		    //creamos la capa dinámica y la añadimos al mapa
-		    dynamLayer = new ArcGISDynamicMapServiceLayer(urlDynamic,{id:"usa",opacity:0.5});
-        	map.addLayer(dynamLayer);
+		    	//creamos la capa dinámica y la añadimos al mapa
+		    	dynamLayer = new ArcGISDynamicMapServiceLayer(urlDynamic,{id:"usa",opacity:0.5});
+			map.addLayer(dynamLayer);
 
-        	/*//creamos la capa de entidades y la añadimos al mapa
-        	var featLayer = new FeatureLayer(urlCities);
-        	map.addLayer(featLayer);*/
+			/*//creamos la capa de entidades y la añadimos al mapa
+			var featLayer = new FeatureLayer(urlCities);
+			map.addLayer(featLayer);*/
 
-        	//creamos una capa de gráficos y la añadimos al mapa
-        	var graphicLayer = new GraphicsLayer();
-        	map.addLayer(graphicLayer);
+			//creamos una capa de gráficos y la añadimos al mapa
+			var graphicLayer = new GraphicsLayer();
+			map.addLayer(graphicLayer);
 
-        	//QUERY
-        	//constructor
-        	var myQuery = new Query();
-        	//criterio por atributos
-        	myQuery.where = "pop2000 > 300000";
+			//QUERY
+			//constructor
+			var myQuery = new Query();
+			//criterio por atributos
+			myQuery.where = "pop2000 > 300000";
  			
 			//Atributos de salida
 			myQuery.outFields = ["areaname", "pop2000", "objectid"];
@@ -120,12 +120,12 @@
            			center: evt.mapPoint,
             		radius: 600000
           		});
-        			//añadimos la geometría a la query
-				myQuery.geometry = circle;
-					//aplicamos el criterio espacial		
-				myQuery.spatialRelationship = Query.SPATIAL_REL_INTERSECTS;
-				
-				var symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255,0,0,0.2]));
+			//añadimos la geometría a la query
+			myQuery.geometry = circle;
+				//aplicamos el criterio espacial		
+			myQuery.spatialRelationship = Query.SPATIAL_REL_INTERSECTS;
+
+			var symbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID, null, new Color([255,0,0,0.2]));
         			//se crea el objeto gráfico con la geometría de intersección (el círculo), y con la simbología definida anteriormente
         		var gr = new Graphic(circle, symbol);
         		
@@ -134,8 +134,8 @@
         		graphicLayer.add(gr);
         		
 				
-				//ejecutamos la query y cuando finalize la consulta lanzamos la función show
-				myQueryTask.execute(myQuery,show);
+			//ejecutamos la query y cuando finalize la consulta lanzamos la función show
+			myQueryTask.execute(myQuery,show);
 
 			});
 
@@ -150,6 +150,7 @@
 				if(features.length!=0){
 						//se crea el símbolo
 					var ptPicSymbol = new PictureMarkerSymbol("https://static.arcgis.com/images/Symbols/Shapes/BluePin1LargeB.png", 35, 35);
+					ptPicSymbol.setOffset(0,25);
 						//se recorre el array de entidades			
 					for (var i = 0; i<features.length; i++){
 							//se añade una simbología a cada entidad
